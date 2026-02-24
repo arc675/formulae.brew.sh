@@ -71,6 +71,8 @@ jobs:
           core: true
           cask: false
 
+      - run: brew test-bot --only-cleanup-before
+
       - run: brew generate-formula-api
         env:
           HOMEBREW_DEVELOPER: 1
