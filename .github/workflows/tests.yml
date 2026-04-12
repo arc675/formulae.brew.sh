@@ -86,6 +86,43 @@ jobs:
           path: data-core.tar.gz
           retention-days: 1
 
+  generate-internal:
+    if: startsWith( github.repository, 'Homebrew/' )
+    name: Generate internal API data
+    runs-on: macos-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+        with:
+          core: true
+          cask: true
+
+      - run: brew test-bot --only-cleanup-before
+
+      - run: brew generate-internal-api
+        env:
+          HOMEBREW_DEVELOPER: 1
+
+      - name: Archive data
+        run: tar czvf data-internal.tar.gz api/internal/packages.*
+
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: data-internal
+          path: data-internal.tar.gz
+          retention-days: 1
+
   generate-analytics:
     if: startsWith( github.repository, 'Homebrew/' )
     name: Generate analytics data
@@ -170,7 +207,7 @@ jobs:
           retention-days: 1
 
   build:
-    needs: [generate-cask, generate-core, generate-analytics]
+    needs: [generate-cask, generate-core, generate-internal, generate-analytics]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -200,6 +237,7 @@ jobs:
           tar xvf data-analytics/data-analytics.tar.gz
           tar xvf data-cask/data-cask.tar.gz
           tar xvf data-core/data-core.tar.gz
+          tar xvf data-internal/data-internal.tar.gz
 
       - name: Install oras for pulling from GitHub Packages
         run: brew install oras
