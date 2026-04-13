@@ -35,6 +35,7 @@ jobs:
         with:
           core: false
           cask: true
+          stable: false
 
       - run: brew generate-cask-api
         env:
@@ -70,6 +71,7 @@ jobs:
         with:
           core: true
           cask: false
+          stable: false
 
       - run: brew test-bot --only-cleanup-before
 
@@ -107,6 +109,7 @@ jobs:
         with:
           core: false
           cask: false
+          stable: false
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@e65c17d16e57e481586a6a5a0282698790062f92 # v1.300.0
@@ -187,6 +190,7 @@ jobs:
         with:
           core: false
           cask: false
+          stable: false
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@e65c17d16e57e481586a6a5a0282698790062f92 # v1.300.0
