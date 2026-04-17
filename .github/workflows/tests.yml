@@ -295,7 +295,7 @@ jobs:
 
   deploy-issue:
     name: Open/close deploy issues
-    needs: [generate-cask, generate-core, generate-analytics, build, deploy]
+    needs: [generate-cask, generate-core, generate-analytics, generate-internal, build, deploy]
     if: ${{ always() && github.ref_name == 'main' }}
     env:
       RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
