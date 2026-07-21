@@ -9,6 +9,9 @@ layout: base
 <h3><a href="{{ site.baseurl }}/api/{{ analytics_path }}/{{ page.category }}/{{ page.days }}.json"><code>/api/{{ analytics_path }}/{{ page.category }}/{{ page.days }}.json</code> (JSON API)</a></h3>
 
 <h4>Start Date: {{ analytics_data.start_date }}</h4>
+{%- if page.category == "homebrew-env-config" %}
+<h4>Total Variables: {{ analytics_data.total_items }}</h4>
+{%- endif %}
 <h4>Total Events: {{ analytics_data.total_count }}</h4>
 
 <table class="full-width">
@@ -20,6 +23,8 @@ layout: base
             Version
     {%- when "homebrew-devcmdrun-developer" -%}
             Configuration
+    {%- when "homebrew-env-config" -%}
+            Environment Variable
     {%- when "homebrew-os-arch-ci" -%}
             Setup
     {%- when "homebrew-prefixes" -%}
@@ -38,8 +43,12 @@ layout: base
             Formula
 {%- endcase -%}
         </th>
+{%- if page.category == "homebrew-env-config" %}
+        <th>Non-default Events</th>
+        <th>Default Events</th>
+{%- endif %}
         <th>Events</th>
-        <th>%</th>
+        <th>{% if page.category == "homebrew-env-config" %}Non-default {% endif %}%</th>
     </tr>
 {%- for item in analytics_data.items -%}
     <tr>
@@ -50,6 +59,8 @@ layout: base
                 <code>{{ item.os_version | escape }}</code>
         {%- when "homebrew-devcmdrun-developer" -%}
                 <code>{{ item.devcmdrun_developer | escape }}</code>
+        {%- when "homebrew-env-config" -%}
+                <code>{{ item.env_config | escape }}</code>
         {%- when "homebrew-os-arch-ci" -%}
                 <code>{{ item.os_arch_ci | escape }}</code>
         {%- when "homebrew-prefixes" -%}
@@ -81,6 +92,10 @@ layout: base
             {%- endif -%}
     {%- endcase -%}
         </td>
+{%- if page.category == "homebrew-env-config" %}
+        <td class="number-data">{{ item.non_default_count }}</td>
+        <td class="number-data">{{ item.default_count }}</td>
+{%- endif %}
         <td class="number-data">{{ item.count }}</td>
         <td class="number-data">{{ item.percent }}%</td>
     </tr>
