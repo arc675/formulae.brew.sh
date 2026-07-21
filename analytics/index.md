@@ -42,6 +42,12 @@ redirect_from: /analytics-linux/
         <td><a href="{{ site.baseurl }}/analytics/homebrew-devcmdrun-developer/365d/">365 days</a></td>
     </tr>
     <tr>
+        <td>Homebrew Environment Configuration Events</td>
+        <td><a href="{{ site.baseurl }}/analytics/homebrew-env-config/30d/">30 days</a></td>
+        <td><a href="{{ site.baseurl }}/analytics/homebrew-env-config/90d/">90 days</a></td>
+        <td><a href="{{ site.baseurl }}/analytics/homebrew-env-config/365d/">365 days</a></td>
+    </tr>
+    <tr>
         <td>OS/Architecture/CI for Events</td>
         <td><a href="{{ site.baseurl }}/analytics/homebrew-os-arch-ci/30d/">30 days</a></td>
         <td><a href="{{ site.baseurl }}/analytics/homebrew-os-arch-ci/90d/">90 days</a></td>
